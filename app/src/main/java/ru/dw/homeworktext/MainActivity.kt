@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             Typeface.createFromAsset(this.assets, "font/Lobster-Regular.ttf")
 
         spannable()
-        changeColor()
+        //changeColor()
     }
 
     private fun spannable() {
@@ -44,22 +44,23 @@ class MainActivity : AppCompatActivity() {
 
         backgroundColorSpan(spannableStringBuilder)
         strikethroughSpan(spannableStringBuilder)
+        changeColor(spannableStringBuilder)
 
 
     }
 
-    private fun changeColor() {
-        val spannableStringBuilder = SpannableStringBuilder(getString(R.string.large_text))
+    private fun changeColor(spannableStringBuilder: SpannableStringBuilder) {
+        //val spannableStringBuilder = SpannableStringBuilder(getString(R.string.large_text))
 
         lifecycleScope.launch(Dispatchers.Main) {
             var i = 0
             spannableStringBuilder.forEachIndexed { index, _ ->
                 spannableColor(spannableStringBuilder, index, rainbow[i])
+                spannableStringBuilder.removeSpan(spannableStringBuilder)
                 i++
                 if (i > 6) i = 0
             }
         }
-
     }
 
     private val rainbow = listOf(
@@ -79,20 +80,15 @@ class MainActivity : AppCompatActivity() {
         color: Int
     ) {
         val flag = 0  // 0: no flag;
-        delay(100L)
+        delay(1L)
         spannableString.setSpan(
             ForegroundColorSpan(ContextCompat.getColor(this, color)),
             startIndex,
             startIndex + 1,
             flag
         )
-//        delay(100L)
-//        spannableString.setSpan(
-//            ForegroundColorSpan(ContextCompat.getColor(this, R.color.black)),
-//            startIndex,
-//            startIndex + 1,
-//            flag
-//        )
+
+
         binding.LargeText.text = spannableString
 
     }
